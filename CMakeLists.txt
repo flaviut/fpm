@@ -8,6 +8,11 @@ add_library(fpm INTERFACE)
 
 target_include_directories(fpm INTERFACE include)
 
+# if this project is being used as a submodule, it's someone elses' dependency.
+# in that case, we don't want to set up any testing, since they just want to
+# use it as a library.
+get_directory_property(hasParent PARENT_DIRECTORY)
+if(NOT hasParent)
 #
 # Test suite
 #
@@ -196,3 +201,4 @@ endif()
 
 add_subdirectory(3rdparty/googlebench)
 add_subdirectory(3rdparty/googletest)
+endif()
